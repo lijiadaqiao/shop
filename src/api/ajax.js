@@ -7,7 +7,7 @@ export default function ajax(url, data = {}, type = 'GET') {
         if (type === 'GET') {
             // 准备URL query参数数据
             let dataStr = '' //拼接字符串
-            Object.keys(dada).forEach(key => {
+            Object.keys(data).forEach(key => {
                 dataStr += key + '=' + data[key] + "&"
             })
             if (dataStr !== '') {
@@ -17,7 +17,7 @@ export default function ajax(url, data = {}, type = 'GET') {
             promise = axios.get(url)
 
         } else {
-            promise = axios.get(url, data)
+            promise = axios.post(url, data)
 
         }
         promise.then(function(response) {
