@@ -5,12 +5,12 @@ import {
     RECEIVE_SHOPS
 } from './mutation-types'
 import {
-    reqAddress,
+    reqAdderss,
     reqFoodTypes,
     reqShops,
 } from './../api'
 export default {
-    //异步获取地址
+    // 异步获取地址
     async getAddress({ commit, state }) {
         //发生异步ajax请求
         const geohash = state.latitude + ',' + state.longitude
@@ -20,6 +20,7 @@ export default {
             commit(RECEIVE_ADDRESS, { address })
         }
     },
+
     //异步获取食品分类列表
     async getCategorys({ commit, state }) {
         //发生异步ajax请求
@@ -34,7 +35,7 @@ export default {
     async getShops({ commit, state }) {
         //发生异步ajax请求
         const { latitude, longitude } = state
-        const result = await reqFoodTypes(latitude, longitude)
+        const result = await reqShops(latitude, longitude)
         if (result.code === 0) {
             const shops = result.data
             commit(RECEIVE_SHOPS, { shops })

@@ -9,13 +9,12 @@
 <script>
 
 import FooterGuide from "./components/FooterGuide/FooterGuide.vue"
-import {reqFoodTypes} from './api'
+
 export default {
-  mounted(){
-// this.$store.dispatch('getCategorys'),
+  async mounted(){
+this.$store.dispatch('getAddress')
+// this.$store.dispatch('getCategorys')
 // this.$store.dispatch('getShops')
-  const result= reqFoodTypes()
-  console.log(result);
   
   },
   components:{
