@@ -5,4 +5,6 @@ export default {
     address: {}, //地址相关的信息
     categorys: [], //食品分类的数组
     shops: [], //商家数组
+    // captcha: {}, //图形验证码
+    userinfo: {},
 }

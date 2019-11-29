@@ -11,8 +11,9 @@
 import FooterGuide from "./components/FooterGuide/FooterGuide.vue"
 
 export default {
-  async mounted(){
+   mounted(){
 this.$store.dispatch('getAddress')
+this.$store.dispatch('getUserinfo')
 // this.$store.dispatch('getCategorys')
 // this.$store.dispatch('getShops')
   

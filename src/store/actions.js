@@ -2,12 +2,27 @@
 import {
     RECEIVE_ADDRESS,
     RECEIVE_CATEGORYS,
-    RECEIVE_SHOPS
+    RECEIVE_SHOPS,
+    // RECEIVE_CAPTCHA,
+    RECEIVE_SEARCHSHOP,
+    // RECEIVE_PWDLOGIN,
+    // RECEIVE_SENDCODE,
+    // RECEIVE_SMSLOGIN,
+    RECEIVE_USERINFO,
+    RECEIVE_LOGOUT
 } from './mutation-types'
 import {
     reqAdderss,
     reqFoodTypes,
     reqShops,
+    // reqCaptcha,
+    reqSearchShop,
+    // reqPwdLogin,
+    // reqSendCode,
+    // reqSmsLogin,
+    reqUserinfo,
+    reqLogout
+
 } from './../api'
 export default {
     // 异步获取地址
@@ -40,5 +55,32 @@ export default {
             const shops = result.data
             commit(RECEIVE_SHOPS, { shops })
         }
-    }
+    },
+    //异步获取验证码
+    // async getCaptcha({ commit, state }) {
+    //     //发生异步ajax请求
+
+    //     const result = await reqCaptcha()
+    //     if (result.code === 0) {
+    //         const captcha = result.data
+    //         commit(RECEIVE_CAPTCHA, { captcha })
+    //     }
+    // },
+    //同步记录用户信息
+    recordUser({ commit, userinfo }) {
+        //发生异步ajax请求
+
+        commit(RECEIVE_SHOPS, { userinfo })
+
+    },
+    //异步获取用户信息
+    async getUserinfo({ commit }) {
+        //发生异步ajax请求
+
+        const result = await reqUserinfo()
+        if (result.code === 0) {
+            const userinfo = result.data
+            commit(RECEIVE_USERINFO, { userinfo })
+        }
+    },
 }

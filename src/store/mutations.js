@@ -2,7 +2,14 @@
 import {
     RECEIVE_ADDRESS,
     RECEIVE_CATEGORYS,
-    RECEIVE_SHOPS
+    RECEIVE_SHOPS,
+    // RECEIVE_CAPTCHA,
+    RECEIVE_SEARCHSHOP,
+    // RECEIVE_PWDLOGIN,
+    // RECEIVE_SENDCODE,
+    // RECEIVE_SMSLOGIN,
+    RECEIVE_USERINFO,
+    RECEIVE_LOGOUT
 } from './mutation-types'
 export default {
     [RECEIVE_ADDRESS](state, { address }) {
@@ -13,6 +20,12 @@ export default {
     },
     [RECEIVE_SHOPS](state, { shops }) {
         state.shops = shops
+    },
+    // [RECEIVE_CAPTCHA](state, { captcha }) {
+    //     state.captcha = captcha
+    // },
+    [RECEIVE_USERINFO](state, { userinfo }) {
+        state.userinfo = userinfo
     },
 
 }
