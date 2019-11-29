@@ -1,24 +1,51 @@
 <template>
-  <div class="star star-24">
-    <span class="star-item on"></span>
-    <span class="star-item on"></span>
-    <span class="star-item on"></span>
-    <span class="star-item half"></span>
-    <span class="star-item off"></span>
+  <div class="star" :class="'star-'+size">
+    <span class="star-item " v-for="(sc,index) in starClass" :key="index" :class="sc">
+       
+    </span>
   </div>
 </template>
 
 <script>
+const CLASS_ON = 'on'
+  const CLASS_HALF = 'half'
+  const CLASS_OFF = 'off'
 export default {
-  porps: {
-    score: Number,
-    size: Number
+  
+  props: {
+      score: Number,
+      size: Number
+  },
+
+computed:{
+   starClass(){
+     const {score}=this
+     const scs=[]
+     //向src中添加几个no
+     const scoreInterger=Math.floor(score)
+     for (let index = 0; index < scoreInterger; index++) {
+       scs.push(CLASS_ON)
+       
+     }
+     //向src中添加几个harf
+    if ( score*10-scoreInterger*10>=5) {
+      scs.push(CLASS_HALF)
+    }
+     //向src中添加几个off
+     while (scs.length<5) {
+       scs.push(CLASS_OFF)
+     }
+     return scs
+   
   }
-};
+  
+}
+}
+
 </script>
 
-<style lang="stylus" scoped>
-// @import '../../common/stylus/mixins.styl';
+<style lang="stylus" scoped rel="stylesheet/stylus">
+@import '../../common/stylus/mixins.styl';
 
 .star { // 2x图 3x图
   float: left;
@@ -41,15 +68,15 @@ export default {
       }
 
       &.on {
-        bg-image('../images/star48_on');
+        bg-image('./images/star48_on');
       }
 
       &.half {
-        bg-image('../images/star48_half');
+        bg-image('./images/star48_half');
       }
 
       &.off {
-        bg-image('../images/star48_off');
+        bg-image('./images/star48_off');
       }
     }
   }
@@ -66,15 +93,15 @@ export default {
       }
 
       &.on {
-        bg-image('../images/star36_on');
+        bg-image('./images/star36_on');
       }
 
       &.half {
-        bg-image('../images/star36_half');
+        bg-image('./images/star36_half');
       }
 
       &.off {
-        bg-image('../images/star36_off');
+        bg-image('./images/star36_off');
       }
     }
   }
@@ -91,15 +118,15 @@ export default {
       }
 
       &.on {
-        bg-image('../images/star24_on');
+        bg-image('./images/star24_on');
       }
 
       &.half {
-        bg-image('../images/star24_half');
+        bg-image('./images/star24_half');
       }
 
       &.off {
-        bg-image('../images/star24_off');
+        bg-image('./images/star24_off');
       }
     }
   }

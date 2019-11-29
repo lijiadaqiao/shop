@@ -46,7 +46,7 @@
 
 <script>
 import { mapState } from "vuex";
-import Star  from "../star/Star.vue"
+import Star  from "../Star/Star.vue"
 export default {
   computed: {
     ...mapState(["shops"])
