@@ -5,6 +5,12 @@ import Order from './../pages/Order/Order.vue'
 import Profile from './../pages/Profile/Profile.vue'
 import Search from './../pages/Search/Search.vue'
 import Login from './../pages/Login/Login.vue'
+import Shop from './../pages/Shop/Shop.vue'
+import ShopGoods from './../pages/Shop/ShopGoods/ShopGoods.vue'
+import ShopInfo from './../pages/Shop/ShopInfo/ShopInfo.vue'
+import ShopRatings from './../pages/Shop/ShopRatings/ShopRatings.vue'
+
+
 // 僧明使用插件
 Vue.use(VueRoouter)
 export default new VueRoouter({
@@ -46,6 +52,27 @@ export default new VueRoouter({
         {
             path: '/login',
             component: Login
+        },
+        {
+            path: '/shop',
+            component: Shop,
+            children: [{
+                    path: '/shop/ShopGoods',
+                    component: ShopGoods
+                },
+                {
+                    path: '/shop/ShopInfo',
+                    component: ShopInfo
+                },
+                {
+                    path: '/shop/ShopRatings',
+                    component: ShopRatings
+                },
+                {
+                    path: '',
+                    redirect: '/shop/ShopGoods'
+                },
+            ]
         },
     ]
 })

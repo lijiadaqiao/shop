@@ -9,7 +9,10 @@ import {
     // RECEIVE_SENDCODE,
     // RECEIVE_SMSLOGIN,
     RECEIVE_USERINFO,
-    RECEIVE_LOGOUT
+    RESET_USER_INFO,
+    RECEIVE_GOODS,
+    RESET_RATINGS,
+    RESET_INFO
 } from './mutation-types'
 import {
     reqAdderss,
@@ -21,7 +24,11 @@ import {
     // reqSendCode,
     // reqSmsLogin,
     reqUserinfo,
-    reqLogout
+    reqLogout,
+    reqShopInfo,
+    reqShopRatings,
+    reqShopGoods
+
 
 } from './../api'
 export default {
@@ -83,4 +90,34 @@ export default {
             commit(RECEIVE_USERINFO, { userinfo })
         }
     },
+    //异步获取食物列表
+    async getGoods({ commit }, callback) {
+        //发生异步ajax请求        
+        const result = await reqShopGoods()
+        if (result.code === 0) {
+            const goods = result.data
+            commit(RECEIVE_GOODS, { goods })
+            callback && callback()
+        }
+    },
+    //异步获取评论列表
+    async getRatings({ commit }) {
+        //发生异步ajax请求  
+        const result = await reqShopRatings()
+        if (result.code === 0) {
+            const ratings = result.data
+            commit(RESET_RATINGS, { ratings })
+        }
+    },
+    //异步获取商家信息
+    async getInfo({ commit }, callback) {
+        //发生异步ajax请求      
+        const result = await reqShopInfo()
+        if (result.code === 0) {
+            const info = result.data
+            commit(RESET_INFO, { info })
+            callback && callback()
+        }
+    },
+
 }

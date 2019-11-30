@@ -9,7 +9,10 @@ import {
     // RECEIVE_SENDCODE,
     // RECEIVE_SMSLOGIN,
     RECEIVE_USERINFO,
-    RECEIVE_LOGOUT
+    RESET_USER_INFO,
+    RECEIVE_GOODS,
+    RESET_RATINGS,
+    RESET_INFO
 } from './mutation-types'
 export default {
     [RECEIVE_ADDRESS](state, { address }) {
@@ -26,6 +29,18 @@ export default {
     // },
     [RECEIVE_USERINFO](state, { userinfo }) {
         state.userinfo = userinfo
+    },
+    [RESET_USER_INFO](state, ) {
+        state.userinfo = {}
+    },
+    [RECEIVE_GOODS](state, { goods }) {
+        state.goods = goods
+    },
+    [RESET_RATINGS](state, { ratings }) {
+        state.ratings = ratings
+    },
+    [RESET_INFO](state, { info }) {
+        state.info = info
     },
 
 }

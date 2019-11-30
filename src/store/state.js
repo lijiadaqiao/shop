@@ -6,5 +6,8 @@ export default {
     categorys: [], //食品分类的数组
     shops: [], //商家数组
     // captcha: {}, //图形验证码
-    userinfo: {},
+    userinfo: {}, //用户信息
+    goods: [], //商品列表
+    ratings: [], //商家评论列表
+    info: {} //商家信息列表
 }
