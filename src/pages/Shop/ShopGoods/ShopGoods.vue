@@ -2,9 +2,10 @@
 <div>
     <div class="goods">
         <div class="menu-wrapper" >
-            <ul>
-                <!-- current -->
-                <li class="menu-item " v-for="(good,index) in goods" :key="index">
+            <ul >
+                <!-- :class="{current: index===currentIndex}" -->
+                <li class="menu-item  " v-for="(good,index) in goods" :key="index" 
+                :class="{current: index===currentIndex}" @click="clickmenuItem(index)">
                     <span class="text bottom-border-1px">
                         <img class="icon" :src="good.icon" v-if="good.icon"/> {{good.name}}
                     </span>
@@ -13,11 +14,12 @@
             </ul>
         </div>
         <div class="foods-wrapper" >
-            <ul>
+            <ul ref="foodsul">
                 <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
                     <h1 class="title">{{good.name}}</h1>
-                    <ul ref="foodsul">
-                        <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index">
+                    <ul >
+                        <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" 
+                        :key="index" @click="showFood(food)">
                             <div class="icon">
                                 <img width="57" height="57" :src="food.icon" />
                             </div>
@@ -32,7 +34,7 @@
                                     <span class="now">￥{{food.price}}</span>
                                     <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
-                                <div class="cartcontrol-wrapper" >CartControl</div>
+                                <div class="cartcontrol-wrapper" ><CartControl :food="food"></CartControl></div>
                             </div>
                         </li>
                         
@@ -41,20 +43,25 @@
            
             </ul>
         </div>
+        <ShopCart />
     </div>
+    <Food :food="food" ref="food"/>
 </div>
 </template>
 
 <script>
 import BScroll from '@better-scroll/core'
 import {mapState} from 'vuex'
-
+import CartControl from '../../../components/CartControl/CartControl.vue'
+import Food from '../../../components/Food/Food.vue'
+import ShopCart from "../../../components/ShopCart/ShopCart.vue"
 
 export default {
-    dadta(){
+    data(){
        return {
-           scrolly:0,
+            scrollY:0,
            tops:[],
+           food:{}//需要显示的food
        }
     },
      mounted(){
@@ -70,24 +77,45 @@ export default {
     },
    computed:{
        ...mapState(['goods']),
+       //计算得到当前分类的下标
        currentIndex(){
-           
+       
+            const {scrollY,tops} =this
+           //根据条件计算产生一个结果
+           const index =tops.findIndex((top,index)=>{
+              return  scrollY>=top &&scrollY<tops[index+1]
+              
+           }) 
+            //返回结果
+               return index
+      
+            
        }
+      
    },
+
    methods:{
        //初始化滚动条
        _initScroll(){
            new BScroll('.menu-wrapper',{
-                    
+                    click:true
                 })
-                const foodsScroll=new BScroll('.foods-wrapper',{
-                    probeType:2
-                })
+            this.foodsScroll=new BScroll('.foods-wrapper',{
+                    probeType:2,
+                     click:true
+            })
                 //给右侧列表绑定监听
-                foodsScroll.on('scroll',({x,y})=>{
+            this.foodsScroll.on('scroll',({x,y})=>{
+                   
+                 this.scrollY=Math.abs(y)
                     
-                    this.scrolly=Math.abs(y)
-                })
+            })
+            //给右侧列表绑定结束监听
+             this.foodsScroll.on('scrollEnd',({x,y})=>{
+                   
+                 this.scrollY=Math.abs(y)
+                    
+            })    
        },
        _initTops(){
            //初始化tops
@@ -96,14 +124,35 @@ export default {
            tops.push(top)
            //找到所有的li
            const lis=this.$refs.foodsul.getElementsByClassName('food-list-hook')
-           Array.prototype.slice.call(lis).forEach(li=>{
-               top+=li.clientHeight
-               tops.push(top)
+            Array.prototype.slice.call(lis).forEach(li => {
+          top += li.clientHeight
+          tops.push(top)
            })
            //更新数据
            this.tops=tops
            console.log(tops)
+   
+       },
+       clickmenuItem(index){
+          //是右侧列表滑动到对应位置
+          const y=this.tops[index]
+          //立即更新点击的分类，让其成为当前分类
+          this.scrollY=y
+         this.foodsScroll.scrollTo(0,-y,300)
+       },
+       showFood(food){
+         //设置Foood
+         this.food=food
+         //显示food组件{调用子组件的方法}
+         this.$refs.food.toggleShow()
+
        }
+
+   },
+   components:{
+     CartControl,
+     Food,
+     ShopCart
    }
 };
 </script>

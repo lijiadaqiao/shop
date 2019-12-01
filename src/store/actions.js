@@ -12,7 +12,9 @@ import {
     RESET_USER_INFO,
     RECEIVE_GOODS,
     RESET_RATINGS,
-    RESET_INFO
+    RESET_INFO,
+    INCREMENT_FOOD_COUNT,
+    DECREMENT_FOOD_COUNT
 } from './mutation-types'
 import {
     reqAdderss,
@@ -74,7 +76,7 @@ export default {
     //     }
     // },
     //同步记录用户信息
-    recordUser({ commit, userinfo }) {
+    recordUser({ commit }, userinfo) {
         //发生异步ajax请求
 
         commit(RECEIVE_SHOPS, { userinfo })
@@ -119,5 +121,13 @@ export default {
             callback && callback()
         }
     },
+    //同步更新FOOD中count的数量
+    updadaFoodCount({ commit }, { isAdd, food }) {
+        if (isAdd) {
+            commit(INCREMENT_FOOD_COUNT, { food })
+        } else {
+            commit(DECREMENT_FOOD_COUNT, { food })
+        }
+    }
 
 }
