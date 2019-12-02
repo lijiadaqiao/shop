@@ -15,9 +15,10 @@
                 <div class="pay " :class="payClass "> {{payText}} </div>
             </div>
         </div>
-        <div class="shopcart-list" v-show="listShow">
+        <transition name="move">
+            <div class="shopcart-list" v-show="listShow">
             <div class="list-header">
-                <h1 class="title">购物车</h1> <span class="empty">清空</span>
+                <h1 class="title">购物车</h1> <span class="empty" @click="clearCart">清空</span>
             </div>
             <div class="list-content">
                 <ul>
@@ -30,12 +31,16 @@
                 </ul>
             </div>
         </div>
+        </transition>
+        
     </div>
     <div class="list-mask" v-show="listShow" @click="toggleShoe"></div>
 </div>
 </template>
 
 <script>
+import {MessageBox,Toast} from "mint-ui"
+import BScroll from '@better-scroll/core'
 import {mapState,mapGetters} from "vuex"
 import CartControl from "../CartControl/CartControl.vue"
 export default {
@@ -70,6 +75,19 @@ export default {
                  this.isShow=false
                 return false
              }
+             if (this.isShow) {
+                 this.$nextTick(()=>{
+                     //实现BScroll实例是一个单例
+                    if (!this.scroll) {
+                        this.scroll= new BScroll('.list-content',{
+                         click:true
+                     })
+                    }else {
+                        this.scroll.refresh()//让滚动条刷新一下重新统计高度
+                    }
+
+                 })
+             }
              return this.isShow
          }
      },
@@ -82,6 +100,13 @@ export default {
                  this.isShow=!this.isShow
              }
              
+         },
+         clearCart(){
+             MessageBox.confirm('确认清空吗？').then(
+                    action=>{
+                     this.$store.dispatch('clearCart')
+                    Toast('已清空')
+            }  ,()=>{}   )
          }
      }
 }

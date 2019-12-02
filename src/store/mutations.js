@@ -15,7 +15,9 @@ import {
     RESET_RATINGS,
     RESET_INFO,
     INCREMENT_FOOD_COUNT,
-    DECREMENT_FOOD_COUNT
+    DECREMENT_FOOD_COUNT,
+    CLEAR_CART,
+    CRESET_SEARCH_SHOPS
 } from './mutation-types'
 export default {
     [RECEIVE_ADDRESS](state, { address }) {
@@ -64,6 +66,17 @@ export default {
                 }
         }
 
+    },
+    [CLEAR_CART](state) {
+        //清除food中的count
+        state.cartFoods.forEach(food => {
+            food.count = 0
+        });
+        //移除购物车中所有都购物项
+        state.cartFoods = []
+    },
+    [CRESET_SEARCH_SHOPS](state, { searchShops }) {
+        state.searchShops = searchShops
     },
 
 }

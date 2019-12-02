@@ -14,14 +14,16 @@ import {
     RESET_RATINGS,
     RESET_INFO,
     INCREMENT_FOOD_COUNT,
-    DECREMENT_FOOD_COUNT
+    DECREMENT_FOOD_COUNT,
+    CLEAR_CART,
+    CRESET_SEARCH_SHOPS
 } from './mutation-types'
 import {
     reqAdderss,
     reqFoodTypes,
     reqShops,
     // reqCaptcha,
-    reqSearchShop,
+
     // reqPwdLogin,
     // reqSendCode,
     // reqSmsLogin,
@@ -29,7 +31,8 @@ import {
     reqLogout,
     reqShopInfo,
     reqShopRatings,
-    reqShopGoods
+    reqShopGoods,
+    reqSearchShop
 
 
 } from './../api'
@@ -103,12 +106,13 @@ export default {
         }
     },
     //异步获取评论列表
-    async getRatings({ commit }) {
+    async getRatings({ commit }, callback) {
         //发生异步ajax请求  
         const result = await reqShopRatings()
         if (result.code === 0) {
             const ratings = result.data
             commit(RESET_RATINGS, { ratings })
+            callback && callback()
         }
     },
     //异步获取商家信息
@@ -128,6 +132,19 @@ export default {
         } else {
             commit(DECREMENT_FOOD_COUNT, { food })
         }
-    }
-
+    },
+    //同步清空购物车
+    clearCart({ commit }) {
+        commit(CLEAR_CART)
+    },
+    //异步获取搜索商家列表
+    async searchShops({ commit, state }, keyword) {
+        //发生异步ajax请求
+        const geohash = state.latitude + ',' + state.longitude
+        const result = await reqSearchShop(keyword, geohash)
+        if (result.code === 0) {
+            const searchShops = result.data
+            commit(CRESET_SEARCH_SHOPS, { searchShops })
+        }
+    },
 }

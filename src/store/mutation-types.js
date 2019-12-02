@@ -17,3 +17,7 @@ export const RESET_INFO = 'reset_info' //获取商家信息列表
 
 export const INCREMENT_FOOD_COUNT = 'increment_food_count' //增加food 中的count
 export const DECREMENT_FOOD_COUNT = 'decrement_food_count' //减少food 中的count
+
+
+export const CLEAR_CART = 'clear_cart' //清空购物车
+export const CRESET_SEARCH_SHOPS = 'creset_search_shops' //接收搜索到的商家数组
